@@ -141,11 +141,11 @@ while True:
         influxClient.store_data(util, power, "utilisation", device_type)
         timeUpdUtil = datetime.now()
 
-    if (timeNow - ti_lastMqtt).total_seconds() >= freq:
-        try:
-            send_data_mqtt(powerData, power)
-        except:
-            print("No MQTT connection")        
-        ti_lastMqtt = datetime.now()
+    #if (timeNow - ti_lastMqtt).total_seconds() >= freq:
+        #try:
+        #    send_data_mqtt(powerData, power)
+        #except:
+        #    print("No MQTT connection")        
+        #ti_lastMqtt = datetime.now()
 
     time.sleep(0.2)
