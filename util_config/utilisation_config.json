@@ -1,0 +1,6 @@
+{
+    "start_hour_facotry": 9,
+    "end_hour_factory": 18,
+    "machine_in_use_threshold": 0.175,
+    "frequency_update_seconds": 1
+}
