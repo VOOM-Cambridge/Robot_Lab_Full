@@ -1,98 +1,95 @@
-version: "3"
+version: "2"
 
 services:
-  influxdb:
-    image: influxdb:alpine
-    container_name: influxdb
-    restart: always
-    ports:
-      - ${INFLUXDB_PORT}:8086
-    volumes:
-      - ./${INFLUXDB_DATA_STORE}:/var/lib/influxdb2
-      - ./${INFLUXDB_DATA_STORE}:/etc/influxdb2
-    environment: 
-      DOCKER_INFLUXDB_INIT_MODE: ${INFLUXDB_INIT_MODE}
-      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUXDB_INIT_USER}
-      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUXDB_INIT_PASSWORD}
-      DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_INIT_ORG}
-      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUXDB_INIT_BUCKET}
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_INIT_ADMIN_TOKEN}
-    networks:
-      - printing_lab
-    
-  data_collect:
-    image: read_data2:v1
-    container_name: read_data2
-    privileged: true
-    restart: always
-    volumes:
-      - ./influxdb/config:/influxdb/config
-      - ./util_config:/util_config
-    depends_on:
-      - influxdb
-      - mosquitto
-    networks:
-      - printing_lab
-    
-  grafana_emon:
-    image: grafana/grafana
-    links:
-      - influxdb
-    ports:
-      - "3000:3000"
-    container_name: grafana
-    restart: always
-    volumes:
-      - grafana:/var/lib/grafana
-    environment:
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_SECURITY_ALLOW_EMBEDDING=true
-    depends_on:
-      - influxdb
-    networks:
-      - printing_lab
-    
-  mosquitto:
-    image: eclipse-mosquitto
-    container_name: mosquitto
-    restart: always
-    ports:
-      - 1883:1883
-    volumes:
-      - ./mosquitto:/mosquitto/
-      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
-    networks:
-      - printing_lab
-  
-  telegraf:
-    image: telegraf:alpine
-    depends_on:
-      - influxdb 
-      - mosquitto
-    container_name: telegraf
-    restart: always
-    environment: 
-      - DOCKER_INFLUXDB_ORG=${INFLUXDB_INIT_ORG}
-      - DOCKER_INFLUXDB_BUCKET=${INFLUXDB_INIT_BUCKET}
-      - DOCKER_CURRENT_INFLUXDB_TOKEN=${INFLUXDB_INIT_ADMIN_TOKEN}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock 
-      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf 
-    
-    networks:
-      - printing_lab
+    timeseries-db:
+        extends:
+            file: timeseries_sds/app.yml
+            service: db
+        networks:
+            internal:
+                aliases:
+                    - timeseries-db.docker.local
+#        logging:
+#            driver: syslog
+#            options:
+#                tag: docker-timeseries-db
+        restart: unless-stopped
+        depends_on:
+            - "mqtt_broker"
+    timeseries-db-input:
+        extends:
+            file: timeseries_sds/app.yml
+            service: telegraf
+        networks:
+            internal:
+                aliases:
+                    - timeseries-input.docker.local
+#        logging:
+#            driver: syslog
+#            options:
+#                tag: docker-timeseries-input
+        restart: unless-stopped
+        depends_on:
+            - "timeseries-db"
+            - "mqtt_broker"
+    dashboard:
+        extends:
+            file: dashboard_ui/app.yml
+            service: app
+        networks:
+            internal:
+                aliases:
+                    - dashboard-ui.docker.local
+        restart: unless-stopped
+        depends_on:
+            - "mqtt_broker"
+            - "timeseries-db"
+    utilisation:
+        extends:
+            file: utilisationCalc/app.yml
+            service: appUtil
+        networks:
+            internal:
+                aliases:
+                    - utilisation.docker.local
+#        logging:
+#            driver: syslog
+#            options:
+#                tag: docker-utilisation
+        restart: unless-stopped
+        depends_on:
+            - "mqtt_broker"
+            - "timeseries-db"
+ 
+    current-collection_1:
+        extends:
+            file: current_dc_1/app.yml
+            service: app
+        networks:
+            internal:
+                aliases:
+                    - current-dc.docker.local
+#        logging:
+#            driver: syslog
+#            options:
+#                tag: docker-current-dc
+        restart: unless-stopped
+        depends_on:
+            - "mqtt_broker"
+
+    mqtt_broker:
+        extends:
+            file: mqtt_broker/app.yml
+            service: app
+        restart: unless-stopped
+#        logging:
+#            driver: syslog
+#            options:
+#                tag: docker-mqtt-broker
+        networks:
+            internal:
+                aliases:
+                    - mqtt.docker.local
 
 networks:
-  printing_lab:
-
-volumes:
-  grafana:
-    driver: local
-  influxdb:
-    driver: local
-  telegraf:
-    driver: local
+     internal:

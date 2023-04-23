@@ -1,0 +1,10 @@
+[constants]
+    start_hour_facotry=9
+    end_hour_factory=18
+    machine_in_use_threshold=2
+    frequency_update_seconds=1
+
+[docker]
+    url = "http://timeseries-db.docker.local:8086"
+    frequency_record_seconds = 1
+    ## Token for authentication.
