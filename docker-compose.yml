@@ -89,22 +89,21 @@ services:
             - "mqtt_broker"
             - "timeseries-db"
  
-    current-collection_1:
-        extends:
-            file: current_dc_1/app.yml
-            service: app
-        networks:
-            internal:
-                aliases:
-                    - current-dc.docker.local
-        logging:
-            driver: syslog
-            options:
-                tag: docker-current-dc
-        restart: unless-stopped
-        depends_on:
-            - "mqtt_broker"
-
+#    current-collection_1:
+#        extends:
+#            file: current_dc_1/app.yml
+#            service: app
+#        networks:
+#            internal:
+#                aliases:
+#                    - current-dc.docker.local
+#        logging:
+#            driver: syslog
+#            options:
+#                tag: docker-current-dc
+#        restart: unless-stopped
+#        depends_on:
+#            - "mqtt_broker"
     mqtt_broker:
         extends:
             file: mqtt_broker/app.yml
