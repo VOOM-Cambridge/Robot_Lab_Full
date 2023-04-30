@@ -9,7 +9,7 @@
   "capture_page":{
   "fullscreen_modal":false,
   "part_entry":"choose",
-  "part_entry_options":["Gearbox","Gears","Gear Casing Top","Gear Casing Bottom", "Screws"],
+  "part_entry_options":["Gearbox","Gear Big", "Gear Small","Gear Casing Top","Gear Casing Bottom"],
   "clear_part_on_submit": true,
   "event_log_length": 10
   },
@@ -17,16 +17,16 @@
   "reasons":{
     "rework":[
       {"id":1,"text":"Incomplete assembly"},
-      {"id":1,"text":"Bad fitting"},
-      {"id":2,"text":"Wrong parts"},
-      {"id":3,"text":"Repairable damage"}
+      {"id":2,"text":"Bad fitting"},
+      {"id":3,"text":"Wrong parts"},
+      {"id":4,"text":"Repairable damage"}
     ],
     "scrap":[
       {"id":1,"text":"Deformed parts"},
       {"id":2,"text":"Damaged parts"},
       {"id":3,"text":"Mahcine error"},
-      {"id":3,"text":"Poor material quality"},
-      {"id":4,"text":"Operator error"}
+      {"id":4,"text":"Poor material quality"},
+      {"id":5,"text":"Operator error"}
     ]
   },
 

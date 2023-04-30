@@ -78,7 +78,7 @@ export function CapturePage({ config }) {
     finally {
       if (config?.capture_page?.clear_part_on_submit) {
         setPart("")
-        inputRef.current.focus();
+        //inputRef.current.focus();
       }
     }
   }
