@@ -1,5 +1,5 @@
 [constants]
-    start_hour_facotry=9
+    start_hour_facotry=8
     end_hour_factory=18
     machine_in_use_threshold=2
     frequency_update_seconds=1

@@ -1,0 +1,38 @@
+{
+  "location_page":{
+  "title":"Locations",
+  "items":[
+      "Location 1",
+      "Location 2",
+      "Really Long Location Name to Test Overflow"
+    ]
+  },
+  "capture_page":{
+  "fullscreen_modal":false,
+  "part_entry":"choose",
+  "part_entry_options":["Gearbox","Buttons","Other"],
+  "clear_part_on_submit": true,
+  "event_log_length": 10
+  },
+
+  "reasons":{
+    "rework":[
+      {"id":1,"text":"Incomplete"},
+      {"id":2,"text":"Wrong parts"},
+      {"id":3,"text":"Repairable Damage"}
+    ],
+    "scrap":[
+      {"id":1,"text":"Damage"},
+      {"id":2,"text":"Deformed"},
+      {"id":3,"text":"Tool Break"},
+      {"id":4,"text":"Operator error"}
+    ]
+  },
+
+  "mqtt":{
+    "host":"mqtt.docker.local",
+    "port":9001,
+    "prefix":["defectCapture"]
+  }
+}
+

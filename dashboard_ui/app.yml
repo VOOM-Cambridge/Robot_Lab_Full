@@ -18,3 +18,5 @@ services:
                     - INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
                     - INFLUXDB_ORG=${DB_ORG}
                     - INFLUXDB_BUCKET=${DB_BUCKET}
+                    - GF_SECURITY_ADMIN_USER = sjb351
+                    - GF_SECURITY_ADMIN_PASSWORD = cambridge2022
