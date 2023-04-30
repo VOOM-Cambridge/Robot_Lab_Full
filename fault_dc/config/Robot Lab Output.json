@@ -1,0 +1,11 @@
+{
+  "reasons":{
+    "rework":[
+      {"id":6,"text":"Reason for Location 1"},
+      {"id":3,"text":"Repairable Damage"}
+    ],
+    "scrap":[
+      {"id":1,"text":"Damage"}
+    ]
+  }
+}
