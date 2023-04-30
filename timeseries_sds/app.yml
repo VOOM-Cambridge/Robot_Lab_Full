@@ -3,7 +3,7 @@ version: '2'
 services:
     db:
         image: influxdb:2.6
-        command: "./entrypoint.sh --reporting-disabled"
+        command: "./entrypoint.sh --reporting-disabled influx bucket create -n $DOCKER_INFLUXDB_BUCKET -r 7d"
         volumes:
           - ./data/influxdb2:/var/lib/influxdb2:rw
         ports:
@@ -16,7 +16,6 @@ services:
           - DOCKER_INFLUXDB_INIT_BUCKET=${DB_BUCKET}
           - DB_BUCKET_SECOND = ${DB_BUCKET_SECOND}
           - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
-        entrypoint: ./entrypoint.sh
     telegraf:
         image: telegraf:1.26
         volumes:
