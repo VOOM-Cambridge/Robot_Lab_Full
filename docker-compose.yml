@@ -44,6 +44,22 @@ services:
         depends_on:
             - "timeseries-db"
             - "mqtt_broker"
+    timeseries-db-input-fault:
+        extends:
+            file: timeseries_sds/app.yml
+            service: telegraf_fault
+        networks:
+            internal:
+                aliases:
+                    - timeseries-input.docker.local
+        logging:
+            driver: syslog
+            options:
+                tag: docker-timeseries-input-fault
+        restart: unless-stopped
+        depends_on:
+            - "timeseries-db"
+            - "mqtt_broker"
     dashboard:
         extends:
             file: dashboard_ui/app.yml
