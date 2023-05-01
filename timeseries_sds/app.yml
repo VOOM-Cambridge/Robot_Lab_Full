@@ -3,7 +3,8 @@ version: '2'
 services:
     db:
         image: influxdb:2.6
-        command: "./entrypoint.sh --reporting-disabled influx bucket create -n $DOCKER_INFLUXDB_BUCKET -r 7d"
+        command: "./entrypoint.sh --reporting-disabled
+                  && influx bucket create -n newBucket"
         volumes:
           - ./data/influxdb2:/var/lib/influxdb2:rw
         ports:
