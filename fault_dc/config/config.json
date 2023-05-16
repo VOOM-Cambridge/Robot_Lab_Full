@@ -31,7 +31,7 @@
   },
 
   "mqtt":{
-    "host":"localhost",
+    "host":"10.247.53.162",
     "port":9001,
     "prefix":["defectCapture"]
   }

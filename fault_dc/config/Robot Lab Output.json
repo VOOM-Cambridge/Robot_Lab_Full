@@ -1,11 +1,16 @@
 {
   "reasons":{
     "rework":[
-      {"id":6,"text":"Reason for Location 1"},
-      {"id":3,"text":"Repairable Damage"}
+      {"id":6,"text":"Not assembled correctly"},
+      {"id":3,"text":"Missing part"},
+      {"id":1,"text":"Incorrrect part"},
+      {"id":2,"text":"Damaged during assembly"},
+      {"id":4,"text":"Failed test"}
     ],
     "scrap":[
-      {"id":1,"text":"Damage"}
+      {"id":1,"text":"Damaged part(s)"},
+      {"id":2,"text":"Parts broken"},
+      {"id":4,"text":"Failed test"}
     ]
   }
 }

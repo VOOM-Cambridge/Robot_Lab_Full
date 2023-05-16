@@ -51,7 +51,7 @@ services:
         networks:
             internal:
                 aliases:
-                    - timeseries-input.docker.local
+                    - timeseries-input-fault.docker.local
         logging:
             driver: syslog
             options:
@@ -60,6 +60,21 @@ services:
         depends_on:
             - "timeseries-db"
             - "mqtt_broker"
+    timeseries-db-input-tracking:
+        extends:
+            file: timeseries_sds/app.yml
+            service: telegraf_tracking
+        networks:
+            internal:
+                aliases:
+                    - timeseries-input-tracking.docker.local
+        logging:
+            driver: syslog
+            options:
+                tag: docker-timeseries-input-fault
+        restart: unless-stopped
+        depends_on:
+            - "timeseries-db"
     dashboard:
         extends:
             file: dashboard_ui/app.yml
@@ -121,4 +136,3 @@ services:
 networks:
     internal:
         name: robotLab
-        driver: bridge
