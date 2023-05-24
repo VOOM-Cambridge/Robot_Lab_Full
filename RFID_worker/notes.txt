@@ -1,0 +1,25 @@
+    timeseries-db-input-worker:
+        extends:
+            file: timeseries_sds/app.yml
+            service: telegraf_worker
+        networks:
+            internal:
+                aliases:
+                    - timeseries-input-worker.docker.local
+        logging:
+            driver: syslog
+            options:
+                tag: docker-timeseries-input-worker
+        restart: unless-stopped
+        depends_on:
+            - "timeseries-db"
+            - "mqtt_broker"
+
+    telegraf_worker:
+        image: telegraf:1.26
+        volumes:
+          - ./config/telegra_worker.conf:/etc/telegraf/telegraf.conf
+        environment: 
+          - DOCKER_INFLUXDB_ORG=${DB_ORG}
+          - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET_WORKER}
+          - DOCKER_CURRENT_INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}

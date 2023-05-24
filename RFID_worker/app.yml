@@ -1,0 +1,9 @@
+version: "2"
+
+services:
+    appRFID:
+        build: .
+        privileged: true
+        volumes:
+            - ./config:/app/config
+            - ./data:/app/data

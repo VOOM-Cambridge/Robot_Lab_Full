@@ -9,6 +9,7 @@ services:
             internal:
                 aliases:
                     - timeseries-db.docker.local
+        restart: unless-stopped
         logging:
             driver: syslog
             options:
@@ -75,6 +76,34 @@ services:
         restart: unless-stopped
         depends_on:
             - "timeseries-db"
+    timeseries-db-input-worker:
+        extends:
+            file: timeseries_sds/app.yml
+            service: telegraf_worker
+        networks:
+            internal:
+                aliases:
+                    - timeseries-input-worker.docker.local
+        logging:
+            driver: syslog
+            options:
+                tag: docker-timeseries-input-worker
+        restart: unless-stopped
+        depends_on:
+            - "timeseries-db"
+            - "mqtt_broker"
+#    rfid-worker-reader:
+#        extends:
+#            file: RFID_worker/app.yml
+#            service: appRFID
+#        networks:
+#            internal:
+#                aliases:
+#                    - rfid-worker.docker.local
+#        restart: unless-stopped
+#        depends_on:
+#            - "mqtt_broker"
+#            - "timeseries-db"
     dashboard:
         extends:
             file: dashboard_ui/app.yml
