@@ -1,9 +1,6 @@
 [constants]
 serialID = '16c0:27db'
 location = 'Robot_Lab' 
-brokerIP = 'tcp://mqtt.docker.local'
+brokerIP = 'mqtt.docker.local'
 
-[docker]
-    url = "http://timeseries-db.docker.local:1883"
-    frequency_record_seconds = 1
-    ## Token for authentication.
+

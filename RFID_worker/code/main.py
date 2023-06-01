@@ -12,6 +12,11 @@ import tomli
 with open("config.toml", "rb") as f:
         toml_conf = tomli.load(f)
 
+with open('userData.json') as q:
+    store_data = json.load(q)
+print("data:")
+print(type(store_data))
+
 serialID = toml_conf['constants']['serialID'] 
 locationID = toml_conf['constants']['location'] 
 #'16c0:27db'
@@ -25,7 +30,7 @@ port = 1883
 broker = toml_conf['constants']['brokerIP']
 topic = "worker_scan/" +locationID + "/"
 
-store_data = {}
+#store_data = {}
 
 client = mqtt.Client("rfid1")
 def findDevice():
@@ -56,22 +61,31 @@ def mqtt_send(ID_barcode, state_mess):
     mess["timestamp"]= str(datetime.now())
     
     mess_send = json.dumps(mess)
-    
+    with open('userData.json', 'w') as fp:
+        json.dump(mess_send, fp)
     client.connect(broker, port)
     time.sleep(0.1)
     client.publish(topic, mess_send)
-    print("mess sent")
+    print("mess sent: " + state_mess)
 
 
 def save_date(IDnum, state):
+    name = str(IDnum)
     store_data[IDnum] ={}
     store_data[IDnum]["state"] = state
-    store_data[IDnum]["last_update"] = datetime.now()
+    store_data[IDnum]["last_update"] = str(datetime.now())
+    json_string = json.dumps(store_data)
+    with open('userData.json', 'w') as fp:
+        json.dump(store_data, fp)
+    #with open('userData.json', 'f') as outfile:
+    # outfile.write(json_string)
     
 def update_data(IDnum, state):
     store_data[IDnum]["state"] = state
-    store_data[IDnum]["last_update"] = datetime.now()
-
+    store_data[IDnum]["last_update"] = str(datetime.now())
+    json_string = json.dumps(store_data)
+    with open('userData.json', 'w') as fp:
+        json.dump(json_string, fp)
 
 def check_sate(barcode):
     for key in store_data:

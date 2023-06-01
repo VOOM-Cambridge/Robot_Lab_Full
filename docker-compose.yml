@@ -92,18 +92,18 @@ services:
         depends_on:
             - "timeseries-db"
             - "mqtt_broker"
-#    rfid-worker-reader:
-#        extends:
-#            file: RFID_worker/app.yml
-#            service: appRFID
-#        networks:
-#            internal:
-#                aliases:
-#                    - rfid-worker.docker.local
-#        restart: unless-stopped
-#        depends_on:
-#            - "mqtt_broker"
-#            - "timeseries-db"
+    rfid-worker-reader:
+        extends:
+            file: RFID_worker/app.yml
+            service: appRFID
+        networks:
+            internal:
+                aliases:
+                    - rfid-worker.docker.local
+        restart: unless-stopped
+        depends_on:
+            - "mqtt_broker"
+            - "timeseries-db"
     dashboard:
         extends:
             file: dashboard_ui/app.yml

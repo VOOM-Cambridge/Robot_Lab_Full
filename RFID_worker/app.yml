@@ -4,6 +4,13 @@ services:
     appRFID:
         build: .
         privileged: true
+        working_dir: /app
+        command: "python main.py"
+        devices:
+            - /dev/input:/dev/input:ro
         volumes:
-            - ./config:/app/config
-            - ./data:/app/data
+            - ./config/config.toml:/app/config.toml
+            - ./userData.json:/app/userData.json
+            - /etc/localtime:/etc/localtime:ro
+            - /run/udev:/run/udev:ro
+
