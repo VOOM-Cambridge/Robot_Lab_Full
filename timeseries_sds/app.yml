@@ -32,20 +32,28 @@ services:
           - DOCKER_INFLUXDB_ORG=${DB_ORG}
           - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET_SECOND}
           - DOCKER_CURRENT_INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
-    telegraf_tracking:
+    telegraf_waste:
+        image: telegraf:1.26
+        volumes:
+          - ./config/telegraf_waste.conf:/etc/telegraf/telegraf.conf
+        environment: 
+          - DOCKER_INFLUXDB_ORG=${DB_ORG}
+          - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET_THIRD}
+          - DOCKER_CURRENT_INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
+    telegraf_track:
         image: telegraf:1.26
         volumes:
           - ./config/telegraf_tracking.conf:/etc/telegraf/telegraf.conf
         environment: 
           - DOCKER_INFLUXDB_ORG=${DB_ORG}
-          - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET_THIRD}
+          - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET_TRACK}
           - DOCKER_CURRENT_INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
- 
     telegraf_worker:
         image: telegraf:1.26
         volumes:
-          - ./config/telegraf_worker.conf:/etc/telegraf/telegraf.conf
+          - ./config/telegra_worker.conf:/etc/telegraf/telegraf.conf
         environment: 
           - DOCKER_INFLUXDB_ORG=${DB_ORG}
           - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET_WORKER}
           - DOCKER_CURRENT_INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}
+ 

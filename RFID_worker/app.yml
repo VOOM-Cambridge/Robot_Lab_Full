@@ -11,6 +11,6 @@ services:
         volumes:
             - ./config/config.toml:/app/config.toml
             - ./userData.json:/app/userData.json
-            - /etc/localtime:/etc/localtime:ro
-            - /run/udev:/run/udev:ro
+#            - /etc/localtime:/etc/localtime:ro
+#            - /run/udev:/run/udev:ro
 

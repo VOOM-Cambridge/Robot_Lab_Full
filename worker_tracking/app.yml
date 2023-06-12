@@ -1,0 +1,18 @@
+version: "2"
+
+services:
+    worker_tracking:
+        build: .
+        privileged: true
+        working_dir: /app
+        volumes:
+            - ./config:/app/config
+            - ./data:/app/data
+            - /run/udev:/run/udev:ro
+            - /etc/localtime:/etc/localtime:ro
+        devices:
+            - /dev/input:/dev/input:ro
+        environment:
+            - DOCKER_INFLUXDB_ORG=${DB_ORG}
+            - DOCKER_INFLUXDB_BUCKET=${DB_BUCKET}
+            - DOCKER_CURRENT_INFLUXDB_TOKEN=${DB_ADMIN_INITIAL_TOKEN}

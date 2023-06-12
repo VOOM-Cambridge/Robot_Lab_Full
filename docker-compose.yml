@@ -10,10 +10,6 @@ services:
                 aliases:
                     - timeseries-db.docker.local
         restart: unless-stopped
-        logging:
-            driver: syslog
-            options:
-                tag: docker-timeseries-db
     fault-dc:
         extends:
             file: fault_dc/app.yml
@@ -22,10 +18,6 @@ services:
             internal:
                 aliases:
                     - fault-dc.docker.local
-        logging:
-                driver: syslog
-                options:
-                        tag: docker-fault-dc
         restart: unless-stopped
         depends_on:
             - "mqtt_broker"
@@ -37,10 +29,6 @@ services:
             internal:
                 aliases:
                     - timeseries-input.docker.local
-        logging:
-            driver: syslog
-            options:
-                tag: docker-timeseries-input
         restart: unless-stopped
         depends_on:
             - "timeseries-db"
@@ -53,10 +41,6 @@ services:
             internal:
                 aliases:
                     - timeseries-input-fault.docker.local
-        logging:
-            driver: syslog
-            options:
-                tag: docker-timeseries-input-fault
         restart: unless-stopped
         depends_on:
             - "timeseries-db"
@@ -69,10 +53,6 @@ services:
             internal:
                 aliases:
                     - timeseries-input-tracking.docker.local
-        logging:
-            driver: syslog
-            options:
-                tag: docker-timeseries-input-fault
         restart: unless-stopped
         depends_on:
             - "timeseries-db"
@@ -124,10 +104,6 @@ services:
             internal:
                 aliases:
                     - utilisation.docker.local
-        logging:
-            driver: syslog
-            options:
-                tag: docker-utilisation
         restart: unless-stopped
         depends_on:
             - "mqtt_broker"
@@ -141,10 +117,6 @@ services:
 #            internal:
 #                aliases:
 #                    - current-dc.docker.local
-#        logging:
-#            driver: syslog
-#            options:
-#                tag: docker-current-dc
 #        restart: unless-stopped
 #        depends_on:
 #            - "mqtt_broker"
@@ -153,10 +125,6 @@ services:
             file: mqtt_broker/app.yml
             service: app
         restart: unless-stopped
-        logging:
-            driver: syslog
-            options:
-                tag: docker-mqtt-broker
         networks:
             internal:
                 aliases:
@@ -165,3 +133,4 @@ services:
 networks:
     internal:
         name: robotLab
+
